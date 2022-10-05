@@ -45,7 +45,7 @@ class _SearchPageState extends State<SearchPage> {
             if (state is ResultsFoundState) {
               return _showListOfResults(context, state.booksList);
             } else if (state is LoadingSearchState) {
-              // return shimmer
+              return _showListOfResults(context, [], isLoading: true);
             }
             return _showInsertBookTitleToSearchText();
           }, listener: (context, state) {
@@ -72,7 +72,11 @@ class _SearchPageState extends State<SearchPage> {
         child: Center(child: Text("Ingrese palabra para buscar libro")));
   }
 
-  Widget _showListOfResults(context, List<dynamic> booksList) {
-    return SearchResults(booksList: booksList);
+  Widget _showListOfResults(context, List<dynamic> booksList,
+      {bool isLoading = false}) {
+    return SearchResults(
+      booksList: booksList,
+      isLoading: isLoading,
+    );
   }
 }

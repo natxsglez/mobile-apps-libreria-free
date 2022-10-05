@@ -17,6 +17,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   Future<FutureOr<void>> _searchBooks(event, emit) async {
+    emit(LoadingSearchState());
     dynamic booksResult;
     var booksReq = Uri(
         scheme: scheme,

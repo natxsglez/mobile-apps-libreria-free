@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  flutter_shimmer:
+  shimmer:
   flutter_bloc:
   http:
   share_plus:

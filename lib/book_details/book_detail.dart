@@ -38,6 +38,7 @@ class _BookDetailState extends State<BookDetail> {
   final String bookTotalPages;
   final String bookDescription;
   final String moreInfoLink;
+  bool _readMore = false;
 
   _BookDetailState({
     required this.bookName,
@@ -94,17 +95,25 @@ class _BookDetailState extends State<BookDetail> {
                 "Páginas: $bookTotalPages",
                 style: TextStyle(fontSize: 18),
               ),
-              Text(
-                bookDescription,
-                maxLines: 6,
-                overflow: TextOverflow.ellipsis,
-                softWrap: false,
-                style: TextStyle(fontStyle: FontStyle.italic),
-              )
+              GestureDetector(
+                  onTap: () {
+                    _readMore = !_readMore;
+                    setState(() {});
+                  },
+                  child: _readMoreText()),
             ],
           ),
         )
       ]),
+    );
+  }
+
+  Widget _readMoreText() {
+    return Text(
+      bookDescription,
+      maxLines: _readMore ? 100 : 6,
+      overflow: _readMore ? null : TextOverflow.ellipsis,
+      style: TextStyle(fontStyle: FontStyle.italic),
     );
   }
 
