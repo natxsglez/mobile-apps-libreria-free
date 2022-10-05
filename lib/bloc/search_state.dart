@@ -10,6 +10,8 @@ abstract class SearchState {
 
 class SearchInitial extends SearchState {}
 
+class LoadingSearchState extends SearchState {}
+
 class ResultsFoundState extends SearchState {
   final List<dynamic> booksList;
 
@@ -19,11 +21,4 @@ class ResultsFoundState extends SearchState {
   List<Object> get props => [booksList];
 }
 
-class NoResultsFoundState extends SearchState {
-  final bool showNoResultsFoundMessage;
-
-  const NoResultsFoundState({required this.showNoResultsFoundMessage});
-
-  @override
-  List<Object> get props => [showNoResultsFoundMessage];
-}
+class NoResultsFoundState extends SearchState {}

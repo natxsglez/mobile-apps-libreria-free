@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tarea_3/bloc/search_bloc.dart';
+import 'package:tarea_3/search_page/search_results.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -12,7 +13,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  var _bookInputController = TextEditingController();
+  final _bookInputController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,24 +28,51 @@ class _SearchPageState extends State<SearchPage> {
             decoration: InputDecoration(
                 suffixIcon: IconButton(
                   icon: Icon(Icons.search),
-                  onPressed: () {},
+                  onPressed: () {
+                    print("A buscar");
+                    String bookSearchTerm = _bookInputController.text;
+                    BlocProvider.of<SearchBloc>(context)
+                        .add(Search(bookToSearch: bookSearchTerm));
+                  },
                 ),
                 border: OutlineInputBorder(),
                 label: Text("Ingresa un título")),
           ),
         ),
-        BlocConsumer<SearchBloc, SearchState>(
-            builder: SearchBloc,
-            listener: (context, state) {
-              if (state is SearchInitial) {
-                // return textfield con texto que pide ingresar busqueda
-              } else if (state is ResultsFoundState) {
-                // return list with all thre results
-              } else if (state is NoResultsFoundState) {
-                // return something c:
-              }
-            })
+        Expanded(
+          child:
+              BlocConsumer<SearchBloc, SearchState>(builder: (context, state) {
+            if (state is ResultsFoundState) {
+              return _showListOfResults(context, state.booksList);
+            } else if (state is LoadingSearchState) {
+              // return shimmer
+            }
+            return _showInsertBookTitleToSearchText();
+          }, listener: (context, state) {
+            if (state is LoadingSearchState) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text("Cargando resultados...")),
+              );
+            } else if (state is NoResultsFoundState) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    content:
+                        Text("Lo sentimos, no se encontraron coincidencias")),
+              );
+              _bookInputController.clear();
+            }
+          }),
+        )
       ]),
     );
+  }
+
+  Widget _showInsertBookTitleToSearchText() {
+    return Expanded(
+        child: Center(child: Text("Ingrese palabra para buscar libro")));
+  }
+
+  Widget _showListOfResults(context, List<dynamic> booksList) {
+    return SearchResults(booksList: booksList);
   }
 }
