@@ -22,3 +22,5 @@ class ResultsFoundState extends SearchState {
 }
 
 class NoResultsFoundState extends SearchState {}
+
+class ErrorFoundState extends SearchState {}

@@ -30,12 +30,12 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       dynamic res = await http.get(booksReq);
       booksResult = jsonDecode(res.body);
       if (booksResult["totalItems"] == 0) {
-        throw Exception();
+        emit(NoResultsFoundState());
       } else {
         emit(ResultsFoundState(booksList: booksResult["items"]));
       }
     } catch (error) {
-      emit(NoResultsFoundState());
+      emit(ErrorFoundState());
     }
   }
 }

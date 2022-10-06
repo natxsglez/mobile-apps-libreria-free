@@ -64,57 +64,71 @@ class _BookDetailState extends State<BookDetail> {
             },
             icon: Icon(Icons.share))
       ]),
-      body: Column(children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 30, 0, 30),
-          child: SizedBox(
-              height: 300,
-              width: 200,
-              child: Image.network(
-                bookImage,
-                fit: BoxFit.fill,
-              )),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-          child: Text(
-            bookName,
-            style: TextStyle(fontSize: 36),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 30, 0, 30),
+            child: SizedBox(
+                height: 300,
+                width: 200,
+                child: Image.network(
+                  bookImage,
+                  fit: BoxFit.fill,
+                )),
           ),
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                date,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-              Text(
-                "Páginas: $bookTotalPages",
-                style: TextStyle(fontSize: 18),
-              ),
-              GestureDetector(
-                  onTap: () {
-                    _readMore = !_readMore;
-                    setState(() {});
-                  },
-                  child: _readMoreText()),
-            ],
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+            child: Text(
+              bookName,
+              style: TextStyle(fontSize: 36),
+              textAlign: TextAlign.center,
+            ),
           ),
-        )
-      ]),
+          Padding(
+            padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  date,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
+                Text(
+                  "Páginas: $bookTotalPages",
+                  style: TextStyle(fontSize: 18),
+                ),
+                GestureDetector(
+                    onTap: () {
+                      _readMore = !_readMore;
+                      setState(() {});
+                    },
+                    child: _readMoreText()),
+              ],
+            ),
+          )
+        ]),
+      ),
     );
   }
 
   Widget _readMoreText() {
-    return Text(
+    return /*Expanded(
+      child: SizedBox(
+        height: 220,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: */
+        Text(
       bookDescription,
       maxLines: _readMore ? 100 : 6,
       overflow: _readMore ? null : TextOverflow.ellipsis,
       style: TextStyle(fontStyle: FontStyle.italic),
-    );
+    )
+        /*),
+      ),
+    )*/
+        ;
   }
 
   void _launchUrl() async {

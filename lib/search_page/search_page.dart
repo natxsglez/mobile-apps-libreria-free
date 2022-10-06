@@ -46,20 +46,23 @@ class _SearchPageState extends State<SearchPage> {
               return _showListOfResults(context, state.booksList);
             } else if (state is LoadingSearchState) {
               return _showListOfResults(context, [], isLoading: true);
+            } else if (state is ErrorFoundState) {
+              return _showInsertBookTitleToSearchText(
+                  "Ocurrió un error, intenta de nuevo");
+            } else if (state is NoResultsFoundState) {
+              _bookInputController.clear();
+              return _showInsertBookTitleToSearchText(
+                  "No se encontraron coincidencias, intenta de nuevo");
             }
-            return _showInsertBookTitleToSearchText();
+            return _showInsertBookTitleToSearchText(
+                "Ingrese palabra para buscar libro");
           }, listener: (context, state) {
             if (state is LoadingSearchState) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("Cargando resultados...")),
+                SnackBar(content: Text("Cargando...")),
               );
-            } else if (state is NoResultsFoundState) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                    content:
-                        Text("Lo sentimos, no se encontraron coincidencias")),
-              );
-              _bookInputController.clear();
+            } else {
+              ScaffoldMessenger.of(context).clearSnackBars();
             }
           }),
         )
@@ -67,9 +70,8 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  Widget _showInsertBookTitleToSearchText() {
-    return Expanded(
-        child: Center(child: Text("Ingrese palabra para buscar libro")));
+  Widget _showInsertBookTitleToSearchText(String message) {
+    return Expanded(child: Center(child: Text(message)));
   }
 
   Widget _showListOfResults(context, List<dynamic> booksList,
