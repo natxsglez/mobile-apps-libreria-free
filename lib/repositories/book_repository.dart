@@ -63,16 +63,13 @@ class BookRepository {
         path: path,
         queryParameters: {"q": bookToSearch});
     try {
-      print("a buscar");
       res = await http.get(booksReq);
-      print("aja");
       res = jsonDecode(res.body);
-      print("${res}");
+
       if (res["totalItems"] == 0) {
         return [];
       }
       booksResult = _fixArrayOfResults(res["items"]);
-      print(booksResult);
       return booksResult;
     } catch (error) {
       throw error;
@@ -81,10 +78,7 @@ class BookRepository {
 
   List<dynamic> _fixArrayOfResults(dynamic res) {
     List<dynamic> booksList = [];
-    print("${res}");
     for (int index = 0; index < res.length; index++) {
-      print("añadiendo");
-      print("${res[index]}");
       booksList.add(Book(
         bookImage: res[index]["volumeInfo"].containsKey("imageLinks")
             ? res[index]["volumeInfo"]["imageLinks"]["thumbnail"]

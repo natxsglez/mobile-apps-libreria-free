@@ -29,7 +29,6 @@ class _SearchPageState extends State<SearchPage> {
                 suffixIcon: IconButton(
                   icon: Icon(Icons.search),
                   onPressed: () {
-                    print("A buscar");
                     String bookSearchTerm = _bookInputController.text;
                     BlocProvider.of<SearchBloc>(context)
                         .add(Search(bookToSearch: bookSearchTerm));

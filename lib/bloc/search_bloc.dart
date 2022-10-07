@@ -19,7 +19,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
     try {
       dynamic res = await _bookRepository.getBooks(event.bookToSearch);
-      print(res);
       if (res.length == 0) {
         emit(NoResultsFoundState());
       } else {
