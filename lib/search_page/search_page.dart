@@ -50,7 +50,7 @@ class _SearchPageState extends State<SearchPage> {
               return _showInsertBookTitleToSearchText(
                   "Ocurrió un error, intenta de nuevo");
             } else if (state is NoResultsFoundState) {
-              _bookInputController.clear();
+              //_bookInputController.clear();
               return _showInsertBookTitleToSearchText(
                   "No se encontraron coincidencias, intenta de nuevo");
             }
@@ -71,7 +71,7 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Widget _showInsertBookTitleToSearchText(String message) {
-    return Expanded(child: Center(child: Text(message)));
+    return Center(child: Text(message));
   }
 
   Widget _showListOfResults(context, List<dynamic> booksList,

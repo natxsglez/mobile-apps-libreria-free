@@ -22,30 +22,7 @@ class SearchResults extends StatelessWidget {
         physics: const ScrollPhysics(),
         crossAxisCount: 2,
         children: List.generate(booksList.length, (index) {
-          String imageURL = booksList[index]["volumeInfo"]
-                  .containsKey("imageLinks")
-              ? booksList[index]["volumeInfo"]["imageLinks"]["thumbnail"]
-              : "https://cdn.pixabay.com/photo/2020/10/02/17/55/book-5621767_1280.png";
-          String totalPages =
-              booksList[index]["volumeInfo"].containsKey("pageCount")
-                  ? "${booksList[index]["volumeInfo"]["pageCount"]}"
-                  : "-";
-          String bookDescription =
-              booksList[index]["volumeInfo"].containsKey("description")
-                  ? booksList[index]["volumeInfo"]["description"]
-                  : "-";
-          String date =
-              booksList[index]["volumeInfo"].containsKey("publishedDate")
-                  ? booksList[index]["volumeInfo"]["publishedDate"]
-                  : "-";
-          return BookItem(
-            imageURL: imageURL,
-            bookTitle: booksList[index]["volumeInfo"]["title"],
-            date: date,
-            bookTotalPages: totalPages,
-            bookDescription: bookDescription,
-            moreInfoLink: booksList[index]["volumeInfo"]["infoLink"],
-          );
+          return BookItem(book: booksList[index]);
         }));
   }
 

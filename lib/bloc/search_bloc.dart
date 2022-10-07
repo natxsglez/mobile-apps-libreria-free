@@ -1,16 +1,14 @@
 import 'dart:async';
-import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:tarea_3/repositories/book_repository.dart';
 
 part 'search_event.dart';
 part 'search_state.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
-  final String host = "www.googleapis.com";
-  final String path = "/books/v1/volumes";
-  final String scheme = "https";
+  final BookRepository _bookRepository = BookRepository();
 
   SearchBloc() : super(SearchInitial()) {
     on<SearchEvent>(_searchBooks);
@@ -18,21 +16,14 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   Future<FutureOr<void>> _searchBooks(event, emit) async {
     emit(LoadingSearchState());
-    dynamic booksResult;
-    var booksReq = Uri(
-        scheme: scheme,
-        host: host,
-        path: path,
-        queryParameters: {"q": event.bookToSearch});
 
     try {
-      emit(LoadingSearchState());
-      dynamic res = await http.get(booksReq);
-      booksResult = jsonDecode(res.body);
-      if (booksResult["totalItems"] == 0) {
+      dynamic res = await _bookRepository.getBooks(event.bookToSearch);
+      print(res);
+      if (res.length == 0) {
         emit(NoResultsFoundState());
       } else {
-        emit(ResultsFoundState(booksList: booksResult["items"]));
+        emit(ResultsFoundState(booksList: res));
       }
     } catch (error) {
       emit(ErrorFoundState());
