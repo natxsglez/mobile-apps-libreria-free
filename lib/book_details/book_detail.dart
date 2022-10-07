@@ -47,25 +47,18 @@ class _BookDetailState extends State<BookDetail> {
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-          child: Text(
-            book.title,
-            style: TextStyle(fontSize: 36),
-            textAlign: TextAlign.center,
-          ),
+          child: _createTextWidget(book.title, TextStyle(fontSize: 36),
+              alignment: TextAlign.center),
         ),
         Padding(
           padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                book.bookDate,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-              Text(
-                "Páginas: ${book.pages}",
-                style: TextStyle(fontSize: 18),
-              ),
+              _createTextWidget(book.bookDate,
+                  TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+              _createTextWidget(
+                  "Páginas: ${book.pages}", TextStyle(fontSize: 18)),
               GestureDetector(
                   onTap: () {
                     _readMore = !_readMore;
@@ -76,6 +69,15 @@ class _BookDetailState extends State<BookDetail> {
           ),
         )
       ]),
+    );
+  }
+
+  Text _createTextWidget(String text, TextStyle style,
+      {TextAlign? alignment = null}) {
+    return Text(
+      text,
+      style: style,
+      textAlign: alignment,
     );
   }
 
